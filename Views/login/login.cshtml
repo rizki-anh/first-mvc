@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+    <div class="login-form">
+        <h2>Login</h2>
+
+        <form method="post" asp-controller="Login" asp-action="Check">
+            @Html.AntiForgeryToken()
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required />
+            </div>
+
+            <button type="submit">Login</button>
+
+            <!-- Pesan error -->
+            <div class="validation-summary-errors">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <p class="register-link">Don't have an account? <a href="/Register">Register here</a></p>
+        </form>
+    </div>
+</body>
+</html>
