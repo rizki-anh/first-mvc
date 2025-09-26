@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Login Page";
+    ViewData["Title"] = "Register Page";
 }
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="container">
-    <form method="post" asp-controller="Login" asp-action="Login" class="login-form">
+    <form method="post" asp-controller="register" asp-action="register" class="login-form">
         <!-- Kiri: gambar -->
         <div class="image-group">
             <h1 style="color: white; font-size: 54px;">Welcome to Our Website</h1>
@@ -19,16 +19,18 @@
 
         <!-- Kanan: form -->
         <div class="input-group">
-            <h1 style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Login</h1>
-            <input type="email" name="Email" placeholder="Email" required />
+            <h1 style="font-weight: bold; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Register</h1>
+            <input type="text" name="username" placeholder="Username" required />
+            <input type="email" name="email" placeholder="Email" required />
+             <input type="number" name="NUPTK" placeholder="NUPTK Number"  style="appearance: none;"/>
             <input type="password" name="password" placeholder="Password" required />
-            <button type="submit">Login</button>
+              <input type="password" name="confirmPassword" placeholder="confirm Password" required />
+            <button type="submit">Register</button>
             <div class="validation-summary-errors">
                 <h1 class="list-errors">@Html.ValidationSummary(false, "", new { @class = "text-errors" })</h1>
             </div>
-            <p class="register-link">Don't have an account? <a href="/Register">Register here</a></p>
+            <p class="register-link">Already have an account? <a href="/">Register here</a></p>
         </div>
-
     </form>
 </div>
 </body>

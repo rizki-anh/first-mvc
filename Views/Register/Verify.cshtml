@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Verify Email";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>@ViewData["Title"]</title>
+<link rel="stylesheet" href="~/css/verify.css" />
+</head>
+<body>
+<div class="container">
+<form method="post" asp-controller="Register" asp-action="Verify">
+<div class="content">
+<div class="image-group">
+<img src="~/image/email.png" alt="test" class="email-image"/>
+</div>
+<div class="text-group">
+<h1>Get Code From Your Email</h1>
+<p>we want to make sure it's really you. In order to further verify your identity, enter the verification code that was sent to your email.</p>
+<h1>verification code</h1>
+ <input type="number" name="Enter Code" placeholder="Enter Code"  style="appearance: none;"/>
+ <a href="#">Resend Code</a>
+ <button class="verify-button">Verify</button>
+</div>
+</div>
+</form>
+</div>
+</body>
+</html>

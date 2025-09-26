@@ -1,29 +1,41 @@
 using Microsoft.AspNetCore.Mvc;
+using dto.logindto;
+
 
 namespace MyMvcApp.Controllers
 {
     public class LoginController : Controller
     {
-        public IActionResult login()
+        private readonly service.loginservices.LoginService _loginService;
+
+        public LoginController(service.loginservices.LoginService loginService)
+        {
+            _loginService = loginService;
+        }
+        public IActionResult Login()
         {
             return View();
         }
-        [ValidateAntiForgeryToken]
+
         [HttpPost]
-public IActionResult Check(string username, string password)
-{
-            if (username == "admin" && password == "123")
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginRequest user)
+        {
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home"); // masuk ke Todo List
-            }
-            else
-            {
-                // Jika username atau password salah, tampilkan pesan error
-                ModelState.AddModelError("", "Username atau Password salah");
-                return View("login");
+                return View(user);
             }
 
-}
-
+            try
+            {
+                await _loginService.loginauth(user);
+                return RedirectToAction("Verify", "Register");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Terjadi kesalahan: " + ex.Message);
+                return View(user);
+            }
+        }
     }
 }
