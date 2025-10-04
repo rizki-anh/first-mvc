@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using user.Extensions;
-
+using Resend;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,20 +19,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.SlidingExpiration = true; // Perpanjang durasi cookie otomatis
     });
 
-builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
-{
-    options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10 MB
-});
-
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = 10 * 1024 * 1024; // 10 MB
 });
-
-
-builder.Services.AddControllersWithViews();
 builder.Services.AddMyDependencies(builder.Configuration);
-builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

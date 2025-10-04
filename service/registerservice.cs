@@ -1,6 +1,8 @@
 using MyApp.Repository;
 using BCrypt.Net;
 using servicerole;
+using service.verify;
+using Resend;
 
 namespace service.registerservice
 {
@@ -8,10 +10,12 @@ namespace service.registerservice
     {
         private readonly UserRepository _userRepository;
         private readonly Role _roleService;
-        public RegisterService(UserRepository userRepository)
+        private readonly Verification _verificationService;
+        public RegisterService(UserRepository userRepository, IResend resend)
         {
             _userRepository = userRepository;
             _roleService = new Role(userRepository);
+            _verificationService = new Verification(userRepository, resend);
         }
 
         public void RegisterUser(dto.registerrequestdto.Registerdto userDto)
@@ -33,7 +37,7 @@ namespace service.registerservice
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDto.password);
             user.password = hashedPassword;
 
-            _userRepository.Adduser(user);
+            _verificationService.VerifyEmail(user);
         }
     }
 }

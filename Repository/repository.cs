@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using register.Models;
+using  verify.Models;
 namespace MyApp.Repository // 🔑 ganti jadi namespace konsisten
 {
     public class UserRepository
@@ -54,8 +55,8 @@ namespace MyApp.Repository // 🔑 ganti jadi namespace konsisten
 
             string sql = "SELECT NUPTK FROM users WHERE NUPTK IS NOT NULL";
             await using var command = new MySqlCommand(sql, connection);
-            await using var reader = await command.ExecuteReaderAsync();
 
+            await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 long nuptk = reader.GetInt64(reader.GetOrdinal("NUPTK"));
@@ -89,6 +90,41 @@ namespace MyApp.Repository // 🔑 ganti jadi namespace konsisten
             }
             return null;
         }
+        public void UpdateVerificationCode(string email, string code, DateTime expireTime)
+        {
+            using var connection = new MySqlConnection(_connectionString);
+            connection.Open();
 
+            string sql = "UPDATE users SET verification_code = @code, code_expire_time = @expireTime WHERE email = @Email";
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@code", code);
+            command.Parameters.AddWithValue("@expireTime", expireTime);
+            command.Parameters.AddWithValue("@Email", email);
+            command.ExecuteNonQuery();
+        }
+        public Verify? GetbyEmail(string email)
+        {
+            using var connection = new MySqlConnection(_connectionString);
+            connection.Open();
+
+            string sql = "SELECT email, verification_code, code_expire_time FROM users WHERE email = @Email";
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@Email", email);
+            using var reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Verify
+                {
+                    email = reader.GetString("email"),
+                    code = reader.GetString("verification_code"),
+                    code_expire_time = reader.GetDateTime("code_expire_time")
+                };
+            }
+            return null;
+        }
+        public void SetVerified()
+        {
+            
+         }
     }
 }

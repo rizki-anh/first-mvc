@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageReference Include="MySql.Data" Version="9.4.0" />
+    <PackageReference Include="Resend" Version="0.1.6" />
   </ItemGroup>
 
 </Project>
